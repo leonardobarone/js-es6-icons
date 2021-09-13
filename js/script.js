@@ -129,6 +129,9 @@ const iconsColored = icons.map(
   
 // FUNZIONE PRINT-ICONS
 const printIcons = (arr, id) => {
+
+    id.innerHTML = "";
+
     for(let i = 0; i < arr.length; i++){
 
         const {name, family, prefix, color} = arr[i];
@@ -156,12 +159,30 @@ iconsColored.forEach(
         // se non è presente pushalo dentro
         if (!categories.includes(element.category)) {
             categories.push(element.category);
-            document.getElementById("categories").innerHTML += `
-            <option value="${element.category}">${element.category}</option>`
         } 
+    }
+);
+const selectCategories = document.getElementById("categories");
+
+categories.forEach(
+    (element)=> {
+        selectCategories.innerHTML += `
+        <option value="${element}">${element}</option>`
     }
 );
 
 
 // Milestone 3
 // Creiamo una select con i tipi di icone e usiamola per filtrare le icone
+selectCategories.addEventListener("change",
+    () => {
+        const iconsFiltered = iconsColored.filter(
+            (elm) => {
+                if (selectCategories.value == elm.category || selectCategories.value == ""){
+                    return true;
+                }
+            }
+        )
+        printIcons(iconsFiltered, main);    
+    }
+);
