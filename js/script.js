@@ -109,16 +109,59 @@ const icons = [
 	},
   ];
 
-  // Milestone 1
-// Partendo dalla seguente struttura dati , mostriamo in pagina tutte le icone disponibili come da layout.
+const main = document.getElementById("main");
 
+const colors = {
+    "food"  : "blue",
+    "animal" : "green",
+    "beverage" : "red",
+};  
 
+// COLORIAMO LE ICONE PER TIPO
+const iconsColored = icons.map(
+    (elm) => {
+        return {
+            ...elm,
+            color : colors[elm.category]
+        };
+    } 
+    );
+  
+// FUNZIONE PRINT-ICONS
+const printIcons = (arr, id) => {
+    for(let i = 0; i < arr.length; i++){
 
-for(let i = 0; i < icons.length; i++){
-    document.getElementById("main").innerHTML += 
-    `<div class="card">
-    <i class="${icons[i].family} ${icons[i].prefix}${icons[i].name}"></i>
-    <h3>${icons[i].name}</h3>
-    </div>`;
-    console.log(icons[i]);
+        const {name, family, prefix, color} = arr[i];
+    
+        id.innerHTML += 
+        `<div id="card-id" class="card">
+            <i class="${family} ${prefix}${name}" style="color:${color}"></i>
+            <h3>${name}</h3>
+        </div>`;
+    }
 }
+
+
+
+
+
+// PROGRAMMA PRINCIPALE
+printIcons(iconsColored, main);
+
+console.log(iconsColored, icons);
+
+const categories = [];
+iconsColored.forEach(
+    (element) => {
+        // se non è presente pushalo dentro
+        if (!categories.includes(element.category)) {
+            categories.push(element.category);
+            document.getElementById("categories").innerHTML += `
+            <option value="${element.category}">${element.category}</option>`
+        } 
+    }
+);
+
+
+// Milestone 3
+// Creiamo una select con i tipi di icone e usiamola per filtrare le icone
